@@ -31,7 +31,13 @@ t_data		*init(void)
 	data->b.y = 700;
 	data->c.x = 700;
 	data->c.y = 700;
-	return (data);
+	data->triangle.a.x = 350;
+	data->triangle.a.y = 0;
+	data->triangle.b.x = 0;
+	data->triangle.b.y = 700;
+	data->triangle.c.x = 700;
+	data->triangle.c.y = 700;
+return (data);
 }
 
 int			main(int argc, char **argv)
@@ -41,8 +47,7 @@ int			main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	data = init();
-//	ft_triangle(data->a, data->b, data->c, data);
-	ft_sierpinsky(data->a, data->b, data->c, data, 3);
+	ft_sierpinsky(data->triangle, data, 8);
 	mlx_hook(data->win, 17, 0, window_closed, data);
 	mlx_loop(data->mlx);
 	return (0);

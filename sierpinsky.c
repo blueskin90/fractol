@@ -65,46 +65,47 @@ void		ft_line(t_point a, t_point b, t_data *data)
 	}
 }
 
-t_point		upper(t_point a, t_point b, t_point c)
+t_triangle	ft_uppertri(t_triangle tri)
 {
-	a.y /= 2;
-	return (a);
+	tri.b.x = (tri.a.x - tri.b.x) / 2 + tri.b.x;
+	tri.b.y = (tri.b.y - tri.a.y) / 2 + tri.a.y;
+	tri.c.x = (tri.c.x - tri.a.x) / 2 + tri.a.x;
+	tri.c.y = (tri.c.y - tri.a.y) / 2 + tri.a.y;
+	return (tri);
 }
 
-int			ft_sierpinsky(t_point a, t_point b, t_point c, t_data *data, int i)
+t_triangle	ft_lefttri(t_triangle tri)
+{
+	tri.a.x = (tri.a.x - tri.b.x) / 2 + tri.b.x;
+	tri.a.y = (tri.b.y - tri.a.y) / 2 + tri.a.y;
+	tri.c.x = (tri.c.x - tri.b.x) / 2 + tri.b.x;
+	return (tri);
+}
+
+t_triangle	ft_righttri(t_triangle tri)
+{
+	tri.b.x = tri.a.x;
+	tri.a.x = (tri.c.x - tri.a.x) / 2 + tri.a.x;
+	tri.a.y = (tri.c.y - tri.a.y) / 2 + tri.a.y;
+	return (tri);
+}
+
+
+void		ft_sierpinsky(t_triangle tri, t_data *data, int i)
 {
 	if (i == 0)
-		ft_triangle(a, b, c, data);
+		ft_triangle(tri, data);
 	else
 	{	
-	ft_sierpinsky(a, half(b), half(c), data, i - 1);
-	ft_sierpinsky(half(a), b, half(c), data, i - 1);
-	ft_sierpinsky(half(a), half(b), c, data, i - 1);
+	ft_sierpinsky(ft_uppertri(tri), data, i - 1);
+	ft_sierpinsky(ft_lefttri(tri), data, i - 1);
+	ft_sierpinsky(ft_righttri(tri), data, i - 1);
 	}
-	return (0);	
 }
 
-void		ft_filltriangle(t_point a, t_point b, t_point c, t_data *data)
+void		ft_triangle(t_triangle tri, t_data *data)
 {
-	(void)a;
-	(void)b;
-	(void)c;
-	(void)data;
-}
-
-void		ft_triangle(t_point a, t_point b, t_point c, t_data *data)
-{
-	ft_line(a, b, data);
-	ft_line(b, c, data);
-	ft_line(c, a, data);
-	if (a.y != 350)
-	{
-		a.y++;
-		b.x++;
-		b.y--;
-		c.x--;
-		c.y--;
-		ft_triangle(a, b, c, data);
-	}
-	ft_filltriangle(a, b, c, data);
+	ft_line(tri.a, tri.b, data);
+	ft_line(tri.b, tri.c, data);
+	ft_line(tri.c, tri.a, data);
 }

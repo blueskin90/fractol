@@ -6,7 +6,7 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 16:37:55 by toliver           #+#    #+#              #
-#    Updated: 2017/12/06 17:57:26 by toliver          ###   ########.fr        #
+#    Updated: 2017/12/07 21:35:19 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,13 +40,13 @@ $(NAME): $(OBJ) fractol.h
 	gcc -o $@ -c $< $(FLAGS) $(INCLUDES)
 
 clean:
-	make clean -C libft/
-	make clean -C minilibx_macos/
+#	make clean -C libft/
+#	make clean -C minilibx_macos/
 	rm -rf $(OBJ)
 
 fclean: clean
-	make fclean -C libft/
-	make clean -C minilibx_macos/
+#	make fclean -C libft/
+#	make clean -C minilibx_macos/
 	rm -rf $(NAME)
 
 re: fclean all

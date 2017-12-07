@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 22:09:57 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/07 19:31:19 by toliver          ###   ########.fr       */
+/*   Updated: 2017/12/07 22:10:31 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef struct		s_point
 }					t_point;
 
 typedef struct		s_triangle
+{
+	t_point			a;
+	t_point			b;
+	t_point			c;
+}					t_triangle;
+
 typedef struct		s_data
 {
 	void			*mlx;
@@ -45,6 +51,7 @@ typedef struct		s_data
 	t_point			a;
 	t_point			b;
 	t_point			c;
+	t_triangle		triangle;
 }					t_data;
 
 /*
@@ -55,9 +62,13 @@ void				errset1(int *err, int *x, int difinc1, int difinc2);
 void				errset2(int *err, int *y, int difinc0, int difinc3);
 void				ft_linepart(t_point a, t_point b, t_data *data);
 void				ft_line(t_point a, t_point b, t_data *data);
-void				ft_triangle(t_point a, t_point b, t_point c, t_data *data);
-void				ft_filltriangle(t_point a, t_point b, t_point c, t_data *data);
-void				ft_sierpinsky(t_point a, t_point b, t_point c, t_data *data, int i);
+void				ft_triangle(t_triangle triangle, t_data *data);
+void				ft_sierpinsky(t_triangle triangle, t_data *data, int i);
+
+t_triangle			ft_uppertri(t_triangle tri);
+t_triangle			ft_lefttri(t_triangle tri);
+t_triangle			ft_righttri(t_triangle tri);
+
 /*
 ** keyboard functions
 */
