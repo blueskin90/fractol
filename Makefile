@@ -6,13 +6,14 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 16:37:55 by toliver           #+#    #+#              #
-#    Updated: 2017/12/07 21:35:19 by toliver          ###   ########.fr        #
+#    Updated: 2017/12/07 22:19:51 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 
 FILES = main.c \
+		putline.c \
 		sierpinsky.c \
 
 OBJ = $(FILES:.c=.o)

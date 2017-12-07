@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/07 22:19:33 by toliver           #+#    #+#             */
+/*   Updated: 2017/12/07 22:20:27 by toliver          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 void		ft_error(char *str)
@@ -47,7 +59,7 @@ int			main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	data = init();
-	ft_sierpinsky(data->triangle, data, 8);
+//	ft_sierpinsky(data->triangle, data, 8); // deg a partir de 8 iterations
 	mlx_hook(data->win, 17, 0, window_closed, data);
 	mlx_loop(data->mlx);
 	return (0);
