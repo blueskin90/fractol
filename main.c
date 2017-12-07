@@ -41,7 +41,8 @@ int			main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	data = init();
-	ft_triangle(data->a, data->b, data->c, data);
+//	ft_triangle(data->a, data->b, data->c, data);
+	ft_sierpinsky(data->a, data->b, data->c, data, 3);
 	mlx_hook(data->win, 17, 0, window_closed, data);
 	mlx_loop(data->mlx);
 	return (0);

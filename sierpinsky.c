@@ -65,6 +65,25 @@ void		ft_line(t_point a, t_point b, t_data *data)
 	}
 }
 
+t_point		upper(t_point a, t_point b, t_point c)
+{
+	a.y /= 2;
+	return (a);
+}
+
+int			ft_sierpinsky(t_point a, t_point b, t_point c, t_data *data, int i)
+{
+	if (i == 0)
+		ft_triangle(a, b, c, data);
+	else
+	{	
+	ft_sierpinsky(a, half(b), half(c), data, i - 1);
+	ft_sierpinsky(half(a), b, half(c), data, i - 1);
+	ft_sierpinsky(half(a), half(b), c, data, i - 1);
+	}
+	return (0);	
+}
+
 void		ft_filltriangle(t_point a, t_point b, t_point c, t_data *data)
 {
 	(void)a;

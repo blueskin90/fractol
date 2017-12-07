@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 22:09:57 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/06 18:08:04 by toliver          ###   ########.fr       */
+/*   Updated: 2017/12/07 19:31:19 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct		s_point
 	int				y;
 }					t_point;
 
+typedef struct		s_triangle
 typedef struct		s_data
 {
 	void			*mlx;
@@ -56,6 +57,7 @@ void				ft_linepart(t_point a, t_point b, t_data *data);
 void				ft_line(t_point a, t_point b, t_data *data);
 void				ft_triangle(t_point a, t_point b, t_point c, t_data *data);
 void				ft_filltriangle(t_point a, t_point b, t_point c, t_data *data);
+void				ft_sierpinsky(t_point a, t_point b, t_point c, t_data *data, int i);
 /*
 ** keyboard functions
 */
