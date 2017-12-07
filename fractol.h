@@ -40,18 +40,22 @@ typedef struct		s_data
 	int				button[7];
 	int				buttonx[7];
 	int				buttony[7];
+
+	t_point			a;
+	t_point			b;
+	t_point			c;
 }					t_data;
 
 /*
 ** printing functions
 */
 
-void				errset1(int *err, double *x, int difinc1, int difinc2);
-void				errset2(int *err, double *y, int difinc0, int difinc3);
+void				errset1(int *err, int *x, int difinc1, int difinc2);
+void				errset2(int *err, int *y, int difinc0, int difinc3);
 void				ft_linepart(t_point a, t_point b, t_data *data);
 void				ft_line(t_point a, t_point b, t_data *data);
-void				ft_triangle(t_point a, t_pointb, t_pointc);
-void				ft_filltriangle(t_point a, t_point b, t_point c);
+void				ft_triangle(t_point a, t_point b, t_point c, t_data *data);
+void				ft_filltriangle(t_point a, t_point b, t_point c, t_data *data);
 /*
 ** keyboard functions
 */

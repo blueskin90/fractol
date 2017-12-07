@@ -13,6 +13,7 @@
 NAME = fractol
 
 FILES = main.c \
+		sierpinsky.c \
 
 OBJ = $(FILES:.c=.o)
 
