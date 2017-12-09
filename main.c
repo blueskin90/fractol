@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 22:19:33 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/07 22:20:27 by toliver          ###   ########.fr       */
+/*   Updated: 2017/12/08 21:39:39 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,13 @@ t_data		*init(void)
 		ft_error("New window creation failed.");
 	data->winx = 701;
 	data->winy = 701;
-	data->a.x = 350;
-	data->a.y = 0;
-	data->b.x = 0;
-	data->b.y = 700;
-	data->c.x = 700;
-	data->c.y = 700;
 	data->triangle.a.x = 350;
 	data->triangle.a.y = 0;
 	data->triangle.b.x = 0;
 	data->triangle.b.y = 700;
 	data->triangle.c.x = 700;
 	data->triangle.c.y = 700;
+	data->ite = 0;
 return (data);
 }
 
@@ -59,7 +54,9 @@ int			main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	data = init();
-//	ft_sierpinsky(data->triangle, data, 8); // deg a partir de 8 iterations
+//	ft_sierpinsky(data->triangle, data, data->ite); // deg a partir de 7 -8 iter
+	ft_mandelbrot(data);
+	mlx_hook(data->win, 2, 0, key_on, data);
 	mlx_hook(data->win, 17, 0, window_closed, data);
 	mlx_loop(data->mlx);
 	return (0);

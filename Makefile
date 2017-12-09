@@ -6,7 +6,7 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 16:37:55 by toliver           #+#    #+#              #
-#    Updated: 2017/12/07 22:19:51 by toliver          ###   ########.fr        #
+#    Updated: 2017/12/08 15:28:28 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ NAME = fractol
 
 FILES = main.c \
 		putline.c \
+		keyboard.c \
 		sierpinsky.c \
+		mandelbrot.c \
 
 OBJ = $(FILES:.c=.o)
 
