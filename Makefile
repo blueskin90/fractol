@@ -14,7 +14,9 @@ NAME = fractol
 
 FILES = main.c \
 		putline.c \
+		img.c \
 		keyboard.c \
+		mouse.c \
 		sierpinsky.c \
 		mandelbrot.c \
 

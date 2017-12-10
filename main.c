@@ -44,6 +44,8 @@ t_data		*init(void)
 	data->triangle.c.x = 700;
 	data->triangle.c.y = 700;
 	data->ite = 0;
+	data->img = NULL;
+	mlx_img_init(data);
 return (data);
 }
 
@@ -55,8 +57,8 @@ int			main(int argc, char **argv)
 	(void)argv;
 	data = init();
 //	ft_sierpinsky(data->triangle, data, data->ite); // deg a partir de 7 -8 iter
-	ft_mandelbrot(data);
 	mlx_hook(data->win, 2, 0, key_on, data);
+	mlx_hook(data->win, 6, 0, mouse_mov, data);
 	mlx_hook(data->win, 17, 0, window_closed, data);
 	mlx_loop(data->mlx);
 	return (0);

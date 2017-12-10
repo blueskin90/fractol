@@ -63,16 +63,18 @@ typedef struct		s_data
 ** printing functions
 */
 
+void				ft_mandelbrot(t_data *data, int x, int y);
+void				ft_sierpinsky(t_triangle triangle, t_data *data, int i);
+
 void				errset1(int *err, int *x, int difinc1, int difinc2);
 void				errset2(int *err, int *y, int difinc0, int difinc3);
 void				ft_linepart(t_point a, t_point b, t_data *data);
 void				ft_line(t_point a, t_point b, t_data *data);
 void				ft_triangle(t_triangle triangle, t_data *data);
-void				ft_sierpinsky(t_triangle triangle, t_data *data, int i);
-void				ft_mandelbrot(t_data *data);
 t_triangle			ft_uppertri(t_triangle tri);
 t_triangle			ft_lefttri(t_triangle tri);
 t_triangle			ft_righttri(t_triangle tri);
+void				mlx_px_to_img(t_data *data, int x, int y, int c);
 
 /*
 ** keyboard functions
@@ -83,6 +85,8 @@ int					key_on(int keycode, t_data *data);
 /*
 ** mouse functions
 */
+
+int					mouse_mov(int x, int y, t_data *data);
 
 /*
 ** utility functions
@@ -100,4 +104,5 @@ double				ft_cmod(t_complex comp); // donne la norme du vecteur
 */
 
 t_data				*init(void);
+void				mlx_img_init(t_data *data);
 #endif
