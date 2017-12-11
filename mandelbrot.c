@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 15:13:22 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/08 21:39:46 by toliver          ###   ########.fr       */
+/*   Updated: 2017/12/11 17:55:56 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,35 @@ int				ft_rmandel(t_complex c, t_complex z, int ite)
 	return (ft_rmandel(c, z, ite - 1)); 
 }
 
+void			ft_julia(t_data *data, int a, int b)
+{
+	int			x;
+	int			y;
+	t_complex	c;
+	t_complex	z;
+	
+	x = 0;
+	y = 0;
+	z = ft_complex(a, b, data);
+	mlx_img_init(data);
+	while (y < data->winy)
+	{
+		while (x < data->winx)
+		{
+			c = ft_cadd(ft_complex(x, y, data), ft_complex(a, b, data));
+			if (ft_rmandel(z, c, 40) == 0)
+				mlx_px_to_img(data, x, y, 0xffffff);
+			else
+				mlx_px_to_img(data, x, y, 0x000000);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+	mlx_clear_window(data->mlx, data->win);
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+}
+
 void			ft_mandelbrot(t_data *data, int a, int b)
 {
 	int			x;
@@ -68,19 +97,17 @@ void			ft_mandelbrot(t_data *data, int a, int b)
 	
 	x = 0;
 	y = 0;
-	z.r = 0;  // ici mettre position curseur pour julia
-	z.i = 0; // ici mettre position curseur pour julia
+	z.r = 0;
+	z.i = 0;
 	mlx_img_init(data);
 	while (y < data->winy)
 	{
 		while (x < data->winx)
 		{
 			c = ft_cadd(ft_complex(x, y, data), ft_complex(a, b, data));
-			if (ft_rmandel(c, z, 40) == 0) // inverser z et c pour julia
-//				mlx_pixel_put(data->mlx, data->win, x, y, 0xffffff);
+			if (ft_rmandel(c, z, 40) == 0)
 				mlx_px_to_img(data, x, y, 0xffffff);
 			else
-//				mlx_pixel_put(data->mlx, data->win, x, y, 0x000000);
 				mlx_px_to_img(data, x, y, 0x000000);
 			x++;
 		}

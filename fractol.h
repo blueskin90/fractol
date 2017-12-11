@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 22:09:57 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/08 21:39:56 by toliver          ###   ########.fr       */
+/*   Updated: 2017/12/11 17:57:30 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct		s_data
 */
 
 void				ft_mandelbrot(t_data *data, int x, int y);
+void				ft_julia(t_data *data, int x, int y);
 void				ft_sierpinsky(t_triangle triangle, t_data *data, int i);
 
 void				errset1(int *err, int *x, int difinc1, int difinc2);
