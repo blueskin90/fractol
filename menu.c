@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse.c                                            :+:      :+:    :+:   */
+/*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 00:03:23 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/19 08:48:39 by toliver          ###   ########.fr       */
+/*   Created: 2017/12/15 16:49:02 by toliver           #+#    #+#             */
+/*   Updated: 2017/12/15 20:37:59 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int		mouse_mov(int x, int y, t_data *data)
+void	menu(t_data *data)
 {
-		if (data->button[3] == 1)
-			middlebuttonhandle(x, y, data);
-		if (data->julia->locked == 0)
-			data->julia->c = ft_complex(x, y, data);
-//	data->mandelbrot->c = ft_complex(x, y, data);
-//	data->burningship->c = ft_complex(x, y, data);
-		ft_refresh(data);
-	return (1);
+	int	y;
+	int	x;		
+	y = 0;
+
+	if (data->menu == 1)
+	{
+		while (y < data->winy)
+		{
+			x = data->winx - data->onscreen->imgx - 50;
+			while (x < data->winx)
+			{
+				data->onscreen->img_str[x * 4 + y * data->winx * 4 + 3] = 40;
+				x++;
+			}
+			y++;
+		}
+	}
 }

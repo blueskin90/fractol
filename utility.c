@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse.c                                            :+:      :+:    :+:   */
+/*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 00:03:23 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/19 08:48:39 by toliver          ###   ########.fr       */
+/*   Created: 2017/12/15 20:31:08 by toliver           #+#    #+#             */
+/*   Updated: 2017/12/15 20:37:44 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int		mouse_mov(int x, int y, t_data *data)
+void		ft_printite(t_data *data)
 {
-		if (data->button[3] == 1)
-			middlebuttonhandle(x, y, data);
-		if (data->julia->locked == 0)
-			data->julia->c = ft_complex(x, y, data);
-//	data->mandelbrot->c = ft_complex(x, y, data);
-//	data->burningship->c = ft_complex(x, y, data);
-		ft_refresh(data);
-	return (1);
+	char	*str;
+
+	str = ft_itoa(data->onscreen->ite);
+	mlx_string_put(data->mlx, data->win, 20, 20, 0xffffff, str);
+	free(str);
 }

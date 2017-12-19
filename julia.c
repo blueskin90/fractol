@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse.c                                            :+:      :+:    :+:   */
+/*   julia.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/12 00:03:23 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/19 08:48:39 by toliver          ###   ########.fr       */
+/*   Created: 2017/12/11 18:29:20 by toliver           #+#    #+#             */
+/*   Updated: 2017/12/15 23:07:04 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int		mouse_mov(int x, int y, t_data *data)
+long double				ft_julia(t_complex c, t_complex z, int ite)
 {
-		if (data->button[3] == 1)
-			middlebuttonhandle(x, y, data);
-		if (data->julia->locked == 0)
-			data->julia->c = ft_complex(x, y, data);
-//	data->mandelbrot->c = ft_complex(x, y, data);
-//	data->burningship->c = ft_complex(x, y, data);
-		ft_refresh(data);
-	return (1);
+	int				i;
+	long double		retval;
+
+	i = 0;
+	while (i < ite)
+	{
+		c = ft_cadd(ft_csqr(c), z);
+		if (ft_checkvalue(c) > 100)
+		{
+			retval = (i - log(log(ft_cmod(c)) / log(100)) / log(2)) / ite;
+			return (retval);
+		}
+		i++;
+	}
+	return (-1);
 }

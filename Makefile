@@ -6,7 +6,7 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 16:37:55 by toliver           #+#    #+#              #
-#    Updated: 2017/12/08 15:28:28 by toliver          ###   ########.fr        #
+#    Updated: 2017/12/15 20:32:41 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,19 @@ NAME = fractol
 
 FILES = main.c \
 		putline.c \
+		color.c \
+		button.c \
 		img.c \
+		complex.c \
 		keyboard.c \
 		mouse.c \
 		sierpinsky.c \
+		julia.c \
 		mandelbrot.c \
+		burningship.c \
+		menu.c \
+		utility.c \
+		thread.c
 
 OBJ = $(FILES:.c=.o)
 
@@ -28,7 +36,7 @@ LIBFT = libft/libft.a
 
 LIBX = minilibx_macos/libmlx.a
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -Ofast
 
 MLX = -framework OpenGL -framework AppKit
 
@@ -36,7 +44,7 @@ MLX = -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
-$(NAME): $(OBJ) fractol.h
+$(NAME): $(OBJ)
 	make -C libft/
 	make -C minilibx_macos/
 	gcc -o $(NAME) $(OBJ) $(FLAGS) $(MLX) $(LIBFT) $(LIBX) $(INCLUDES)
@@ -45,13 +53,13 @@ $(NAME): $(OBJ) fractol.h
 	gcc -o $@ -c $< $(FLAGS) $(INCLUDES)
 
 clean:
-#	make clean -C libft/
-#	make clean -C minilibx_macos/
+	make clean -C libft/
+	make clean -C minilibx_macos/
 	rm -rf $(OBJ)
 
 fclean: clean
-#	make fclean -C libft/
-#	make clean -C minilibx_macos/
+	make fclean -C libft/
+	make clean -C minilibx_macos/
 	rm -rf $(NAME)
 
 re: fclean all
