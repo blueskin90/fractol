@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 22:19:24 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/08 13:52:31 by toliver          ###   ########.fr       */
+/*   Updated: 2017/12/26 01:32:35 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_triangle	ft_uppertri(t_triangle tri)
 
 t_triangle	ft_lefttri(t_triangle tri)
 {
-	tri.c.x = tri.a.x; 
+	tri.c.x = tri.a.x;
 	tri.a.x = (tri.a.x - tri.b.x) / 2 + tri.b.x;
 	tri.a.y = (tri.b.y - tri.a.y) / 2 + tri.a.y;
 	return (tri);
@@ -37,7 +37,6 @@ t_triangle	ft_righttri(t_triangle tri)
 	return (tri);
 }
 
-
 void		ft_sierpinsky(t_triangle tri, t_data *data, int i)
 {
 	if (i > 8)
@@ -45,10 +44,10 @@ void		ft_sierpinsky(t_triangle tri, t_data *data, int i)
 	if (i == 0)
 		ft_triangle(tri, data);
 	else
-	{	
-	ft_sierpinsky(ft_uppertri(tri), data, i - 1);
-	ft_sierpinsky(ft_lefttri(tri), data, i - 1);
-	ft_sierpinsky(ft_righttri(tri), data, i - 1);
+	{
+		ft_sierpinsky(ft_uppertri(tri), data, i - 1);
+		ft_sierpinsky(ft_lefttri(tri), data, i - 1);
+		ft_sierpinsky(ft_righttri(tri), data, i - 1);
 	}
 }
 

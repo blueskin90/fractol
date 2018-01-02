@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   glynn.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/08 15:13:22 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:49:00 by toliver          ###   ########.fr       */
+/*   Created: 2017/12/30 17:31:27 by toliver           #+#    #+#             */
+/*   Updated: 2018/01/02 19:53:59 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-float				ft_checkvalue(t_complex comp)
-{
-	return (comp.r * comp.r + comp.i * comp.i);
-}
-
-float				ft_mandelbrot(t_complex c, t_complex z, int ite)
+float		ft_glynn(t_complex c, t_complex z, int ite)
 {
 	int				i;
-	float			retval;
+	float		retval;
 
+	z.r = -0.2;
 	i = 0;
+	c.r += c.i;
+	c.i = c.r - c.i;
+	c.r = c.r -= c.i;
 	while (i < ite)
 	{
-		z = ft_cadd(ft_csqr(z), c);
-		if (ft_checkvalue(z) > 100)
+		c = ft_cadd(ft_cpow(c, 1.5), z);
+		if (ft_checkvalue(c) > 100)
 		{
-			retval = (i + 1 - log(log(ft_checkvalue(z))) / log(2)) / ite;
+			retval = (i - log(log(ft_cmod(c)) / log(100)) / log(2)) / ite;
 			return (retval);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 12:51:15 by toliver           #+#    #+#             */
-/*   Updated: 2017/12/19 08:48:32 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/02 20:11:27 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,94 +14,101 @@
 
 int				button_on(int button, int x, int y, t_data *data)
 {
-	t_complex	test;
 	data->button[button] = 1;
 	data->buttonx[button] = x;
 	data->buttony[button] = y;
-	if (button == 5) // scroll arriere
-	{
-		data->onscreen->zoompos = ft_mousecoord(x, y, data->onscreen, data);
-		data->onscreen->zoom *= 1.1;
-		test = ft_mousecoord(x, y, data->onscreen, data);
-		data->onscreen->offset.r -= (test.r - data->onscreen->zoompos.r); 
-		data->onscreen->offset.i -= (test.i - data->onscreen->zoompos.i);
-		data->onscreen->ite -= 1 ;
-	}
-	if (button == 4) // scroll avant
-	{
-		data->onscreen->zoompos = ft_mousecoord(x, y, data->onscreen, data);
-		data->onscreen->zoom /= 1.1;
-		test = ft_mousecoord(x, y, data->onscreen, data);
-		data->onscreen->offset.r -= (test.r - data->onscreen->zoompos.r);
-		data->onscreen->offset.i -= (test.i - data->onscreen->zoompos.i);
-		data->onscreen->ite += 1;
-	}
+	if (button == 4 || button == 5)
+		scrollbutton(button, x, y, data);
 	if (button == 4 || button == 5)
 	{
+		data->colorchanged = 1;
 		ft_refresh(data);
 	}
+	if (button == 1)
+		leftbuttonclick(x, y, data);
+	if (button == 2)
+		rightbuttonclick(x, y, data);
 	if (button == 3)
 	{
-		ft_putchar('A');
+		colordel(data);
+		data->colorchanged = 1;
 	}
-	if (button == 1)
-		leftbuttonhandle(x, y, data);
 	return (0);
 }
 
-int		button_off(int button, int x, int y, t_data *data)
+int				button_off(int button, int x, int y, t_data *data)
 {
 	data->button[button] = 0;
 	data->buttonx[button] = x;
 	data->buttony[button] = y;
-	return (1);
-}
-
-void			ptrswap(t_fractale **ptr1, t_fractale **ptr2, t_data *data)
-{
-	t_fractale	*tmp;
-
-	tmp = *ptr1;
-	*ptr1 = *ptr2;
-	*ptr2 = tmp;
-	ft_refresh(data);
-}
-
-void			leftbuttonhandle(int x, int y, t_data *data)
-{
-	if(data->menu == 1)
+	if (button == 1)
 	{
-		if (x >= data->winx - data->onscreen->imgx - 25 && x <= data->winx - 25)
-		{
-			if (y >= 25 && y <= 25 + data->onscreen->imgy)
-				ptrswap(&data->onscreen, &data->screen1, data);
-			if (y >= 50 + data->onscreen->imgy && y <= 50 + 2 * data->onscreen->imgy)
-				ptrswap(&data->onscreen, &data->screen2, data);
-			if (y >= 75 + 2 * data->onscreen->imgy  && y <= 75 + 3 * data->onscreen->imgy)
-				ptrswap(&data->onscreen, &data->screen3, data);
-		}
-	}
-}
-
-int				middlebuttonhandle(int x, int y, t_data *data)
-{
-	t_complex	test;
-	t_complex	test2;
-
-	test = ft_coord(x, y, data->onscreen, data);
-	test2 = ft_coord(data->buttonx[3], data->buttony[3], data->onscreen, data);
-	if (data->buttonx[3] != x)
-	{
-		data->onscreen->tran.r += test.r - test2.r;
-		data->buttonx[3] = x;
-	}
-	if (data->buttony[3] != y)
-	{
-		data->onscreen->tran.i += test.i - test2.i;
-		data->buttony[3] = y;
+		data->clickedrainbow = 0;
+		data->clickedsquare = 0;
+		data->clickedr = 0;
+		data->clickedg = 0;
+		data->clickedb = 0;
+		ft_clickset(data);
 	}
 	ft_refresh(data);
 	return (1);
 }
 
+void			leftbuttonclick(int x, int y, t_data *data)
+{
+	if (data->menu == 1)
+		menuhandle(x, y, data);
+	if (data->colormenu == 1)
+		colormenuhandle(x, y, data);
+	if (data->menu == 1 || data->colormenu == 1)
+		ft_refresh(data);
+}
 
+int				rightbuttonclick(int x, int y, t_data *data)
+{
+	t_color		*ptr;
+
+	(void)x;
+	(void)y;
+	ptr = data->color;
+	while (ptr && ptr->hover == 0)
+		ptr = ptr->next;
+	if (ptr == NULL)
+	{
+		data->colormenu = 0;
+		data->editedcolor = NULL;
+		return (0);
+	}
+	else if (ptr->hover == 1)
+	{
+		data->colormenu = 1;
+		data->editedcolor = ptr;
+	}
+	ft_refresh(data);
+	return (1);
+}
+
+void			scrollbutton(int button, int x, int y, t_data *data)
+{
+	if (button == 5)
+	{
+		if (data->menu == 1 && x > data->winx - data->onscreen->imgx - 50 &&
+				x < data->winx && y >= 0 && y < data->winy)
+			data->scrollmenuoffset -= (data->scrollmenuoffset >
+					-(data->onscreen->imgy + 50)) ? 25 : 0;
+		else
+			zoom(1, x, y, data);
+	}
+	if (button == 4)
+	{
+		if (data->menu == 1 && x > data->winx - data->onscreen->imgx - 50 &&
+				x < data->winx && y >= 0 && y < data->winy)
+			data->scrollmenuoffset += (data->scrollmenuoffset < 0) ? 25 : 0;
+		else
+			zoom(-1, x, y, data);
+	}
+	if (data->scrollmenuoffset > 0)
+		data->scrollmenuoffset = 0;
+	if (data->scrollmenuoffset < -(data->onscreen->imgy + 50))
+		data->scrollmenuoffset = -(data->onscreen->imgy + 50);
+}
