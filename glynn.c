@@ -6,15 +6,15 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/30 17:31:27 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:53:59 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/07 14:07:50 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-float		ft_glynn(t_complex c, t_complex z, int ite)
+float			ft_glynn(t_complex c, t_complex z, int ite)
 {
-	int				i;
+	int			i;
 	float		retval;
 
 	z.r = -0.2;

@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 22:09:57 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:53:47 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/09 00:37:32 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@
 # include <fcntl.h>
 # include <math.h>
 # include <pthread.h>
+
+typedef struct		s_value
+{
+	float			r;
+	float			i;
+	int				ping;
+	float			value;
+}					t_value;
 
 typedef struct		s_rgb
 {
@@ -55,13 +63,6 @@ typedef struct		s_point
 	int				y;
 }					t_point;
 
-typedef struct		s_triangle
-{
-	t_point			a;
-	t_point			b;
-	t_point			c;
-}					t_triangle;
-
 typedef	struct		s_fractale
 {
 
@@ -69,7 +70,6 @@ typedef	struct		s_fractale
 
 	float			zoom;
 	t_complex		tran;
-//	t_complex		last_offset;
 	t_complex		zoompos;
 	t_complex		offset;
 
@@ -85,6 +85,8 @@ typedef	struct		s_fractale
 	char			*img_str;
 	void			*miniimg;
 	char			*miniimg_str;
+	t_value			**array;
+	t_value			**miniarray;
 	float		(*formula)(t_complex, t_complex, int);
 }					t_fractale;
 
@@ -127,8 +129,6 @@ typedef struct		s_data
 	int				buttony[7];
 	t_color			*color;
 
-	t_triangle		triangle;
-
 	t_fractale		*mandelbrot;
 	t_fractale		*julia;
 	t_fractale		*burningship;
@@ -136,14 +136,10 @@ typedef struct		s_data
 	t_fractale		*glynn;
 	t_fractale		*mandeldrop;
 	t_fractale		*mandelheart;
+	t_fractale		*buddhabrot;
 
 	t_fractale		*onscreen;
-	t_fractale		*screen[6];
-//	typedef (void)(*gen)(t_data*) generator;
-//	float		test;
-//	float		test2;
-
-	int				ite; // nombre d'iterations
+	t_fractale		*screen[7];
 }					t_data;
 
 typedef struct		s_part
@@ -158,25 +154,17 @@ typedef struct		s_part
 ** printing functions
 */
 
-void				ft_sierpinsky(t_triangle triangle, t_data *data, int i);
 void				errset1(int *err, int *x, int difinc1, int difinc2);
 void				errset2(int *err, int *y, int difinc0, int difinc3);
-void				ft_linepart(t_point a, t_point b, t_data *data);
 void				ft_line(t_point a, t_point b, t_data *data, int color);
-void				ft_triangle(t_triangle triangle, t_data *data);
-t_triangle			ft_uppertri(t_triangle tri);
-t_triangle			ft_lefttri(t_triangle tri);
-t_triangle			ft_righttri(t_triangle tri);
 void				px_to_onscreenimg(t_data *data, int x, int y, int c);
-
 void				*ft_fractal(void *part);
 void				*ft_minifractal(void *part);
+
 /*
 ** fonction in testing
 */
 
-t_part				ft_palloc(t_data *data, int i, t_fractale *fra);
-void				ft_triangleinit(t_data *data);
 void				px_to_miniimg(t_fractale *fract, int x, int y, int c);
 void				print_img(t_data *data);
 void				ft_printcolor(float retvalue, t_data *data, int x, int y);
@@ -189,7 +177,7 @@ int					ft_clickget(t_data *data, int x, int y);
 void				ft_hoverget(t_data *data, int x, int y);
 int					get_px_color(t_data *data, int x, int y);
 
-float				ft_cangle(t_complex c);
+void				iterationhandle(int keycode, t_data *data);
 
 /*
 ** print functions
@@ -240,7 +228,7 @@ void				coloradd(t_data *data, int color, float index);
 int					colordel(t_data *data);
 void				ft_reorganize_colors(t_data *data);
 int					ft_gradcolor(float retval, t_data *data);
-//unsigned char		get_color(int c, char color);
+unsigned char		get_color(int c, char color);
 t_rgb				int_to_rgb(int color);
 int					get_rgb(unsigned char r, unsigned char g, unsigned char b);
 int					rgb_grad(float retval, t_data *data, t_fractale *fra);
@@ -250,11 +238,6 @@ void				modifyhue(int y, t_data *data);
 void				modifysv(int x, int y, t_data *data);
 int					rgb_to_int(t_rgb rgb);
 void				modifyrgb(int x, t_data *data);
-/*
-** printscreen functions
-*/
-
-void				ft_printscreen(t_data *data);
 
 /*
 ** menu functions
@@ -268,13 +251,26 @@ void				colormenu(t_data *data);
 ** fractal functions
 */
 
-float			ft_glynn(t_complex c, t_complex z, int ite);
-float			ft_burningship(t_complex c, t_complex z, int ite);
-float			ft_mandelbrot(t_complex c, t_complex z, int ite);
-float			ft_julia(t_complex c, t_complex z, int ite);
-float			ft_multibrot(t_complex c, t_complex z, int ite);
-float			ft_mandeldrop(t_complex c, t_complex z, int ite);
-float			ft_mandelheart(t_complex c, t_complex z, int ite);
+float				ft_glynn(t_complex c, t_complex z, int ite);
+float				ft_burningship(t_complex c, t_complex z, int ite);
+float				ft_mandelbrot(t_complex c, t_complex z, int ite);
+float				ft_julia(t_complex c, t_complex z, int ite);
+float				ft_multibrot(t_complex c, t_complex z, int ite);
+float				ft_mandeldrop(t_complex c, t_complex z, int ite);
+float				ft_mandelheart(t_complex c, t_complex z, int ite);
+float				ft_buddhabrot(t_complex c, t_complex z, int ite);
+
+void				ft_buddhainit(t_fractale *buddhabrot, t_data *data);
+void				*ft_buddhafill(void *part);
+void				ft_buddhabrotfill(t_complex c, t_complex z, t_value **target,  t_data *data);
+int					pingpixel(t_complex z, t_value **target, t_data *data);
+float				ft_buddhabrot(t_complex c, t_complex z, int ite);
+void				ft_scalearray(int max, t_value **array, int b,  t_data *data);
+void				ft_buddhaimg(t_data *data);
+void				*ft_minibuddhafill(void *part);
+void				array_erase(t_fractale *buddha, t_data *data);
+void				ft_buddhaminiimg(t_data *data);
+
 /*
 ** keyboard functions
 */
@@ -314,6 +310,7 @@ float				ft_min(float a, float b, float c);
 float				ft_max(float a, float b, float c);
 void				ft_printite(t_data *data);
 void				ptrswap(t_fractale **ptr1, t_fractale **ptrd, t_data *data);
+t_part				ft_palloc(t_data *data, int i, t_fractale *fra);
 
 /*
 ** complex handling functions
@@ -326,22 +323,28 @@ t_complex			ft_csqr(t_complex comp); // square du complexe
 t_complex			ft_cabs(t_complex c); // retourne la valeur absolue
 t_complex			ft_cmul(t_complex c1, t_complex c2);
 float				ft_cmod(t_complex comp); // donne la norme du vecteur
-float			ft_checkvalue(t_complex comp); // pour verif ca < limit(carre)
+float				ft_checkvalue(t_complex comp); // pour verif ca < limit(carre)
 t_complex			ft_coord(float x, float y, t_fractale *fra, t_data *dat);
 t_complex			ft_mcoord(float x, float y, t_fractale *fra, t_data *dat);
 t_complex			ft_coordzoom(float x, float y, t_fractale *fra, t_data *dat);
 t_complex			ft_cpow(t_complex c, float pow);
 t_complex			ft_conj(t_complex c);
 t_complex			ft_cinv(t_complex c);
+float				ft_cangle(t_complex c);
+
 /*
 ** init functions
 */
 
+void				screeninit(t_data *data, int fra);
+void				fractinit(t_data *data);
+t_fractale			*fractalinit(t_data *data);
 void				ft_fractset(t_data *data);
-t_data				*init(void);
+void				ft_fractset2(t_data *data);
+t_data				*init(int fra);
 void				mlx_img_init(t_data *data);
 void				img_init(t_fractale *fract, t_data *data);
-t_fractale			*fractalinit(t_data *data);
 void				colorinit(t_data *data);
 void				boolinit(t_data *data);
+
 #endif

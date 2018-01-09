@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/25 21:40:10 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:50:44 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/07 20:50:31 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void			menuhandle(int x, int y, t_data *data)
 	if (x >= data->winx - data->onscreen->imgx - 25 && x <= data->winx - 25)
 	{
 		y = y - data->scrollmenuoffset - 25;
-		while (++i < 6)
+		while (++i < 7)
 			if (y >= i * 25 + i * data->onscreen->imgy &&
 					y <= i * 25 + (i + 1) * data->onscreen->imgy)
 			{

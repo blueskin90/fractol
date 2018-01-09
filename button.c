@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 12:51:15 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 20:11:27 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/08 22:48:19 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int				button_on(int button, int x, int y, t_data *data)
 		scrollbutton(button, x, y, data);
 	if (button == 4 || button == 5)
 	{
-		data->colorchanged = 1;
 		ft_refresh(data);
 	}
 	if (button == 1)
@@ -92,23 +91,27 @@ void			scrollbutton(int button, int x, int y, t_data *data)
 {
 	if (button == 5)
 	{
+		if (data->scrollmenuoffset > -(data->onscreen->imgy + 175))
+			data->colorchanged = 1;
 		if (data->menu == 1 && x > data->winx - data->onscreen->imgx - 50 &&
 				x < data->winx && y >= 0 && y < data->winy)
 			data->scrollmenuoffset -= (data->scrollmenuoffset >
-					-(data->onscreen->imgy + 50)) ? 25 : 0;
-		else
+					-(data->onscreen->imgy + 175)) ? 25 : 0;
+		else if (data->onscreen != data->buddhabrot)
 			zoom(1, x, y, data);
 	}
 	if (button == 4)
 	{
+		if (data->scrollmenuoffset < 0)
+			data->colorchanged = 1;
 		if (data->menu == 1 && x > data->winx - data->onscreen->imgx - 50 &&
 				x < data->winx && y >= 0 && y < data->winy)
 			data->scrollmenuoffset += (data->scrollmenuoffset < 0) ? 25 : 0;
-		else
+		else if (data->onscreen != data->buddhabrot)
 			zoom(-1, x, y, data);
 	}
 	if (data->scrollmenuoffset > 0)
 		data->scrollmenuoffset = 0;
-	if (data->scrollmenuoffset < -(data->onscreen->imgy + 50))
-		data->scrollmenuoffset = -(data->onscreen->imgy + 50);
+	if (data->scrollmenuoffset < -(data->onscreen->imgy + 175))
+		data->scrollmenuoffset = -(data->onscreen->imgy + 175);
 }

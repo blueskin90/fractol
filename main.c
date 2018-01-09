@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 22:19:33 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/01 11:23:18 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/09 14:29:47 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,80 +19,59 @@ int				window_closed(t_data *data)
 	return (0);
 }
 
-void			ft_triangleinit(t_data *data)
+int				paramcheck(char *arg, char *tocomp)
 {
-	data->triangle.a.x = 350;
-	data->triangle.a.y = 0;
-	data->triangle.b.x = 0;
-	data->triangle.b.y = 700;
-	data->triangle.c.x = 700;
-	data->triangle.c.y = 700;
+	int			i;
+
+	i = 0;
+	while (arg[i] == tocomp[i] && arg[i] && tocomp[i])
+		++i;
+	if (arg[i] == '\0')
+		return (1);
+	return (0);
 }
 
-void			ft_setoffset(t_fractale *fra)
+int				argcheck(int argc, char **argv)
 {
-	fra->offset.r = (fra->maxx + fra->minx) / 2;
-	fra->offset.i = (fra->maxy + fra->miny) / 2;
-}
-
-void			ft_fractset(t_data *data)
-{
-	data->julia->formula = &ft_julia;
-	data->julia->minx = -2;
-	data->julia->maxx = 2;
-	data->julia->miny = -1.5;
-	data->julia->maxy = 1.5;
-	data->mandelbrot->formula = &ft_mandelbrot;
-	data->mandelbrot->minx = -2.5;
-	data->mandelbrot->maxx = 1.5;
-	data->mandelbrot->miny = -1.5;
-	data->mandelbrot->maxy = 1.5;
-	data->burningship->formula = &ft_burningship;
-	data->burningship->minx = -2.25;
-	data->burningship->maxx = 1.75;
-	data->burningship->miny = 1;
-	data->burningship->maxy = -2;
-	data->multibrot->formula = &ft_multibrot;
-	data->multibrot->minx = -2;
-	data->multibrot->maxx = 2;
-	data->multibrot->miny = -1.5;
-	data->multibrot->maxy = 1.5;
-	data->glynn->formula = &ft_glynn;
-	data->glynn->minx = 0.24;
-	data->glynn->maxx = -0.24;
-	data->glynn->miny = -0.355;
-	data->glynn->maxy = -0.715;
-	data->mandeldrop->formula = &ft_mandeldrop;
-	data->mandeldrop->minx = -4;
-	data->mandeldrop->maxx = 4;
-	data->mandeldrop->miny = -1.75;
-	data->mandeldrop->maxy = 4.25;
-	data->mandelheart->formula = &ft_mandelheart;
-	data->mandelheart->minx = -4;
-	data->mandelheart->maxx = 4;
-	data->mandelheart->miny = 3.75;
-	data->mandelheart->maxy = -2.25;
-	ft_setoffset(data->julia);
-	ft_setoffset(data->mandelbrot);
-	ft_setoffset(data->burningship);
-	ft_setoffset(data->multibrot);
-	ft_setoffset(data->glynn);
-	ft_setoffset(data->mandeldrop);
-	ft_setoffset(data->mandelheart);
+	if (argc != 2)
+	{
+		ft_putendl("usage:	./fractol fractal");
+		ft_putendl("		mandelbrot, julia, burningship, multibrot, glynn, mandeldrop, mandelheart, buddhabrot");
+		exit(-1);
+	}
+	else if (paramcheck(argv[1], "mandelbrot") == 1)
+		return (0);
+	else if (paramcheck(argv[1], "julia") == 1)
+		return (1);
+	else if (paramcheck(argv[1], "burningship") == 1)
+		return (2);
+	else if (paramcheck(argv[1], "multibrot") == 1)
+		return (3);
+	else if (paramcheck(argv[1], "glynn") == 1)
+		return (4);
+	else if (paramcheck(argv[1], "mandeldrop") == 1)
+		return (5);
+	else if (paramcheck(argv[1], "mandelheart") == 1)
+		return (6);
+	else if (paramcheck(argv[1], "buddhabrot") == 1)
+		return (7);
+	else
+		return (argcheck(1, argv));
 }
 
 int				main(int argc, char **argv)
 {
-	t_data	*data;
+	t_data		*data;
+	int			fra;
 
-	(void)argc;
-	(void)argv;
-	data = init();
+	fra = argcheck(argc, argv);
+	data = init(fra);
 	mlx_hook(data->win, 2, 0, key_on, data);
 	mlx_hook(data->win, 4, 0, button_on, data);
 	mlx_hook(data->win, 5, 0, button_off, data);
 	mlx_hook(data->win, 6, 0, mouse_mov, data);
 	mlx_hook(data->win, 17, 0, window_closed, data);
+	ft_buddhainit(data->buddhabrot, data);
 	ft_refresh(data);
 	mlx_loop(data->mlx);
 	return (0);

@@ -6,27 +6,49 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 16:37:55 by toliver           #+#    #+#              #
-#    Updated: 2017/12/15 20:32:41 by toliver          ###   ########.fr        #
+#    Updated: 2018/01/08 17:25:24 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 
-FILES = main.c \
+FILES =	main.c \
 		putline.c \
-		color.c \
+		colorgradient.c \
+		colorconversion.c \
+		colorconversion2.c \
+		gradientbar.c \
 		button.c \
+		buttonhold.c \
+		init.c \
+		init2.c \
 		img.c \
 		complex.c \
+		complexoperation.c \
+		coord.c \
+		buddhabrot.c \
+		buddhabrot2.c \
 		keyboard.c \
 		mouse.c \
-		sierpinsky.c \
 		julia.c \
 		mandelbrot.c \
 		burningship.c \
+		multibrot.c \
+		glynn.c \
+		mandeldrop.c \
+		mandelheart.c \
 		menu.c \
 		utility.c \
-		thread.c
+		printashapes.c \
+		printshapes.c \
+		printpreset.c \
+		printpreset2.c \
+		printcircle.c \
+		rainbow.c \
+		screen.c \
+		colorlist.c \
+		rgbpicker.c \
+		thread.c \
 
 OBJ = $(FILES:.c=.o)
 
@@ -36,7 +58,7 @@ LIBFT = libft/libft.a
 
 LIBX = minilibx_macos/libmlx.a
 
-FLAGS = -Wall -Wextra -Werror -Ofast
+FLAGS = -Wall -Wextra -Werror -O3 -march=native -flto
 
 MLX = -framework OpenGL -framework AppKit
 

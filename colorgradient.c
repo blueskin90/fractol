@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:46:46 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:52:17 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/07 14:07:34 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int				ft_get_lastcolor(float retval, t_data *data)
 	return (color);
 }
 
-float		ft_get_retval(float retval, t_data *data)
+float			ft_get_retval(float retval, t_data *data)
 {
-	float	inf;
-	float	sup;
+	float		inf;
+	float		sup;
 	t_color		*ptr;
 
 	ptr = data->color;

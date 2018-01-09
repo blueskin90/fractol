@@ -6,15 +6,15 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/11 18:29:20 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:54:52 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/07 21:02:43 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-float				ft_julia(t_complex c, t_complex z, int ite)
+float			ft_julia(t_complex c, t_complex z, int ite)
 {
-	int				i;
+	int			i;
 	float		retval;
 
 	i = 0;

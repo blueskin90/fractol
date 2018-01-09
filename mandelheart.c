@@ -6,15 +6,15 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/01 09:54:22 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:55:29 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/07 14:12:34 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-float		ft_mandelheart(t_complex c, t_complex z, int ite)
+float			ft_mandelheart(t_complex c, t_complex z, int ite)
 {
-	int				i;
+	int			i;
 	float		retval;
 
 	i = -1;

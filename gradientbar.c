@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/25 22:47:59 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 20:08:47 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/07 14:11:04 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void			printgradient(t_data *data)
 
 int				ft_clickget(t_data *data, int x, int y)
 {
-	t_color	*tmp;
+	t_color		*tmp;
 
 	tmp = data->color;
 	while (tmp)
@@ -61,7 +61,7 @@ int				ft_clickget(t_data *data, int x, int y)
 
 void			ft_clickset(t_data *data)
 {
-	t_color	*tmp;
+	t_color		*tmp;
 
 	tmp = data->color;
 	while (tmp)
@@ -105,8 +105,7 @@ int				movingpresets(int y, t_data *data)
 		ptr = ptr->next;
 	if (ptr == NULL)
 		return (0);
-	if (y < 22)
-		y = 22;
+	y = (y < 22) ? 22 : y;
 	if (data->buttony[1] < 22)
 		data->buttony[1] = 22;
 	if (y > data->winy - 24)

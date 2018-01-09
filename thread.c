@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 19:34:47 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:21:07 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/09 21:53:07 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,28 @@ t_part			ft_palloc(t_data *data, int i, t_fractale *fract)
 
 void			ft_refresh(t_data *data)
 {
-	pthread_t	thr[6];
-	t_part		part[6];
+	pthread_t	thr[7];
+	t_part		part[7];
 	int			i;
-	
+
 	if (data->onscreen->locked == 0 || data->colorchanged == 1)
 		ft_onscreenprint(data, data->onscreen);
-	if (data->menu == 1)
+	if ((i = -1) && data->menu == 1)
 	{
-		i = -1;
-		while (++i < 6)
+		while (++i < 7)
 		{
 			if (data->colorchanged == 1 || data->screen[i]->locked == 0)
 			{
 				part[i] = ft_palloc(data, -1, data->screen[i]);
-				pthread_create(&thr[i], NULL, ft_minifractal, (void*)&part[i]);
+				if (data->screen[i] != data->buddhabrot)
+					pthread_create(&thr[i], NULL, ft_minifractal, (void*)&part[i]);
+				else
+					pthread_create(&thr[i], NULL, ft_minibuddhafill, (void*)&part[i]);
 			}
 		}
-		if (data->colorchanged == 1)
+		if ((i = -1) && data->colorchanged == 1)
 			data->colorchanged = 0;
-		i = -1;
-		while (++i < 6)
+		while (++i < 7)
 			pthread_join(thr[i], NULL);
 	}
 	print_img(data);
@@ -58,14 +59,21 @@ void			ft_onscreenprint(t_data *data, t_fractale *fract)
 	int			i;
 
 	i = -1;
+	if (fract == data->buddhabrot)
+		ft_buddhainit(data->buddhabrot, data);
 	while (++i < 4)
 	{
 		part[i] = ft_palloc(data, i, fract);
-		pthread_create(&thr[i], NULL, ft_fractal, (void*)&part[i]);
+		if (fract == data->buddhabrot)
+			pthread_create(&thr[i], NULL, ft_buddhafill, (void*)&part[i]);
+		else
+			pthread_create(&thr[i], NULL, ft_fractal, (void*)&part[i]);
 	}
 	i = -1;
 	while (++i < 4)
 		pthread_join(thr[i], NULL);
+	if (fract == data->buddhabrot)
+		ft_buddhaimg(data);
 	menu(data);
 }
 
@@ -87,8 +95,10 @@ void			*ft_fractal(void *part)
 				p->fra->c, p->data->onscreen->ite)) == -1)
 				px_to_onscreenimg(p->data, x, y, 0x000000);
 			else
+			{
 				px_to_onscreenimg(p->data, x, y, rgb_grad(retval, p->data,
 							p->data->onscreen));
+			}
 		}
 		y += 4;
 	}
@@ -103,6 +113,8 @@ void			*ft_minifractal(void *part)
 	t_part		*p;
 
 	p = part;
+	if (p->fra == p->data->buddhabrot)
+		ft_buddhainit(p->data->buddhabrot, p->data);
 	while (++p->y < p->fra->imgy)
 	{
 		x = -1;

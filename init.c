@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/25 22:15:48 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 18:47:57 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/09 00:37:24 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_fractale		*fractalinit(t_data *data)
 	fract->imgy = (data->winy - 125) / 5;
 	fract->locked = 1;
 	img_init(fract, data);
+	fract->array = NULL;
+	fract->miniarray = NULL;
 	return (fract);
 }
 
@@ -67,20 +69,25 @@ void			boolinit(t_data *data)
 	data->clickedb = 0;
 	data->scrollmenuoffset = 0;
 	data->colorchanged = 1;
+	data->buttony[3] = 0;
+	data->buttonx[3] = 0;
 }
 
-void			screeninit(t_data *data)
+void			screeninit(t_data *data, int fra)
 {
-	data->onscreen = data->julia;
-	data->screen[0] = data->mandelbrot;
+	data->onscreen = data->mandelbrot;
+	data->screen[0] = data->julia;
 	data->screen[1] = data->burningship;
 	data->screen[2] = data->multibrot;
 	data->screen[3] = data->glynn;
 	data->screen[4] = data->mandeldrop;
 	data->screen[5] = data->mandelheart;
+	data->screen[6] = data->buddhabrot;
+	if (fra != 0)
+		ptrswap(&ONSCREEN, &data->screen[fra - 1], data);
 }
 
-t_data			*init(void)
+t_data			*init(int fra)
 {
 	t_data	*data;
 
@@ -93,19 +100,10 @@ t_data			*init(void)
 				mlx_new_window(data->mlx, data->winx, data->winy, "fractol")))
 		ft_error("New window creation failed.");
 	data->img = NULL;
-	data->mandelbrot = fractalinit(data);
-	data->julia = fractalinit(data);
-	data->julia->locked = 0;
-	data->burningship = fractalinit(data);
-	data->multibrot = fractalinit(data);
-	data->multibrot->locked = 0;
-	data->glynn = fractalinit(data);
-	data->mandeldrop = fractalinit(data);
-	data->mandelheart = fractalinit(data);
+	fractinit(data);
 	boolinit(data);
 	ft_fractset(data);
-//	ft_triangleinit(data);
-	screeninit(data);
+	screeninit(data, fra);
 	colorinit(data);
 	mlx_img_init(data);
 	return (data);
