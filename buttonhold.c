@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/25 21:40:10 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/07 20:50:31 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/11 20:51:48 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ int				middlebuttonhandle(int x, int y, t_data *data)
 	{
 		data->onscreen->tran.r += test.r - test2.r;
 		data->buttonx[3] = x;
-		data->colorchanged = 1;
+		ONSCREEN->modified = 1;
 	}
 	if (data->buttony[3] != y)
 	{
 		data->onscreen->tran.i += test.i - test2.i;
 		data->buttony[3] = y;
-		data->colorchanged = 1;
+		ONSCREEN->modified = 1;
 	}
 	ft_refresh(data);
 	return (1);
@@ -64,8 +64,10 @@ void			menuhandle(int x, int y, t_data *data)
 			if (y >= i * 25 + i * data->onscreen->imgy &&
 					y <= i * 25 + (i + 1) * data->onscreen->imgy)
 			{
+				ONSCREEN->modified = 1;
+				data->screen[i]->modified = 1;
 				ptrswap(&data->onscreen, &data->screen[i], data);
-				data->colorchanged = 1;
+				ft_refresh(data);
 				break ;
 			}
 	}

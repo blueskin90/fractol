@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/22 16:14:20 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/02 19:52:34 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/12 11:43:44 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void			coloradd(t_data *data, int color, float index)
 	tmp->hsv = rgb_to_hsv(color);
 	tmp->rgb = int_to_rgb(color);
 	ptr->next = tmp;
+	data->colorchanged = 1;
 }
 
 int				colordel(t_data *data)
@@ -52,6 +53,7 @@ int				colordel(t_data *data)
 	}
 	tmp->next = tmp->next->next;
 	free(ptr);
+	data->colorchanged = 1;
 	return (1);
 }
 
@@ -65,6 +67,7 @@ void			ft_switchnext(t_color *first, t_color *second, t_data *data)
 	ptr->next = second;
 	first->next = second->next;
 	second->next = first;
+	data->colorchanged = 1;
 }
 
 void			ft_reorganize_colors(t_data *data)

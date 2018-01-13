@@ -6,7 +6,7 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 16:37:55 by toliver           #+#    #+#              #
-#    Updated: 2018/01/08 17:25:24 by toliver          ###   ########.fr        #
+#    Updated: 2018/01/13 19:30:04 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ FILES =	main.c \
 		buttonhold.c \
 		init.c \
 		init2.c \
+		init3.c \
 		img.c \
 		complex.c \
 		complexoperation.c \
@@ -49,6 +50,7 @@ FILES =	main.c \
 		colorlist.c \
 		rgbpicker.c \
 		thread.c \
+		thread2.c \
 
 OBJ = $(FILES:.c=.o)
 
@@ -58,7 +60,7 @@ LIBFT = libft/libft.a
 
 LIBX = minilibx_macos/libmlx.a
 
-FLAGS = -Wall -Wextra -Werror -O3 -march=native -flto
+FLAGS = -Wall -Wextra -Werror -Ofast -march=native -flto -fsanitize=address
 
 MLX = -framework OpenGL -framework AppKit
 
@@ -66,12 +68,12 @@ MLX = -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) fractol.h
 	make -C libft/
 	make -C minilibx_macos/
 	gcc -o $(NAME) $(OBJ) $(FLAGS) $(MLX) $(LIBFT) $(LIBX) $(INCLUDES)
 
-%.o: %.c
+%.o: %.c fractol.h
 	gcc -o $@ -c $< $(FLAGS) $(INCLUDES)
 
 clean:

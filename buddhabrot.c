@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 20:55:13 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/09 21:49:14 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/12 10:56:16 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,6 @@ float		ft_buddhabrot(t_complex c, t_complex z, int ite)
 }
 
 void		ft_buddhainit(t_fractale *bud, t_data *data)
-{
-	int		y;
-
-	if (bud->array == NULL)
-	{
-		bud->array = (t_value**)ft_malloc(sizeof(t_value*) * WINY);
-		y = -1;
-		while (++y < WINY)
-			bud->array[y] = (t_value*)ft_malloc(sizeof(t_value) * WINX);
-	}
-	if (bud->miniarray == NULL)
-	{
-		bud->miniarray = (t_value**)ft_malloc(sizeof(t_value*) * bud->imgy);
-		y = -1;
-		while (++y < bud->imgy)
-			bud->miniarray[y] = (t_value*)ft_malloc(sizeof(t_value) *
-					bud->imgx);
-	}
-	array_erase(bud, data);
-}
-
-void		array_erase(t_fractale *bud, t_data *data)
 {
 	int		x;
 	int		y;
@@ -100,7 +78,7 @@ void		ft_scalearray(int max, t_value **array, int b, t_data *data)
 			array[y][x].value = (float)array[y][x].ping / max;
 			if (b == 0)
 				px_to_onscreenimg(data, x, y, rgb_grad(array[y][x].value, data,
-						data->onscreen));
+						data->buddhabrot));
 			else
 				px_to_miniimg(data->buddhabrot, x, y,
 						rgb_grad(array[y][x].value, data, data->buddhabrot));

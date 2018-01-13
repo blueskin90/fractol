@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 13:21:23 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/09 17:39:34 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/12 08:22:17 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	move(int keycode, t_data *data)
 	int	x;
 	int	y;
 
+	if (data->onscreen == data->buddhabrot)
+		return ;
 	if (keycode == 126 || keycode == 125)
 		y = (keycode == 126) ? data->buttony[3] - 1 : data->buttony[3] + 1;
 	else
@@ -33,25 +35,25 @@ void	iterationhandle(int keycode, t_data *data)
 	int	*ite;
 
 	ite = &ONSCREEN->ite;
-	if (keycode == 69 && *ite < INT_MAX)
+	if (keycode == 69 && *ite < INT_MAX && data->locked == 0)
 	{
 		if (ONSCREEN == data->glynn)
 			*ite = (*ite < (INT_MAX - 9)) ? *ite + 10 : INT_MAX;
 		else if (ONSCREEN == data->buddhabrot)
-			*ite = (*ite < (INT_MAX - 499)) ? *ite + 500 : INT_MAX;
+			*ite = (*ite < (INT_MAX - 249)) ? *ite + 250 : INT_MAX;
 		else
 			*ite = (*ite < INT_MAX) ? *ite + 1 : *ite;
-		data->colorchanged = 1;
+		ONSCREEN->modified = 1;
 	}
-	if (keycode == 78 && *ite > 0)
+	if (keycode == 78 && *ite > 0 && data->locked == 0)
 	{
 		if (ONSCREEN == data->glynn)
 			*ite = (*ite < 10) ? 0 : *ite - 10;
 		else if (ONSCREEN == data->buddhabrot)
-			*ite = (*ite < 500) ? 0 : *ite - 500;
+			*ite = (*ite < 250) ? 0 : *ite - 250;
 		else
 			*ite = (*ite == 0) ? 0 : *ite - 1;
-		data->colorchanged = 1;
+		ONSCREEN->modified = 1;
 	}
 }
 

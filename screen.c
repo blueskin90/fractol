@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/02 14:55:03 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/08 21:49:42 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/11 18:39:00 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ void			zoom(int zoom, int x, int y, t_data *data)
 		data->onscreen->ite -= 1;
 	else
 		data->onscreen->ite += 1;
-	data->colorchanged = 1;
+	ONSCREEN->modified = 1;
 }

@@ -6,34 +6,11 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/25 22:15:48 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/09 00:37:24 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/12 12:13:44 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-t_fractale		*fractalinit(t_data *data)
-{
-	t_fractale	*fract;
-
-	fract = (t_fractale*)ft_malloc(sizeof(t_fractale));
-	fract->zoompos.r = 0;
-	fract->zoompos.i = 0;
-	fract->offset.r = 0;
-	fract->offset.i = 0;
-	fract->tran.r = 0;
-	fract->tran.i = 0;
-	fract->zoom = 1;
-	fract->ite = 50;
-	fract->c = ft_comp(0, 0);
-	fract->imgx = data->winx / 6;
-	fract->imgy = (data->winy - 125) / 5;
-	fract->locked = 1;
-	img_init(fract, data);
-	fract->array = NULL;
-	fract->miniarray = NULL;
-	return (fract);
-}
 
 void			colorinit(t_data *data)
 {
@@ -69,6 +46,8 @@ void			boolinit(t_data *data)
 	data->clickedb = 0;
 	data->scrollmenuoffset = 0;
 	data->colorchanged = 1;
+	data->locked = 0;
+	data->button[3] = 0;
 	data->buttony[3] = 0;
 	data->buttonx[3] = 0;
 }

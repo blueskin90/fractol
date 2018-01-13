@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 22:19:33 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/09 14:29:47 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/12 11:12:38 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int				argcheck(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		ft_putendl("usage:	./fractol fractal");
-		ft_putendl("		mandelbrot, julia, burningship, multibrot, glynn, mandeldrop, mandelheart, buddhabrot");
+		ft_putendl("usage:	./fractol param");
+		ft_putstr("		  mandelbrot, julia, burningship, multibrot, glynn, ");
+		ft_putendl("mandeldrop, mandelheart, buddhabrot");
 		exit(-1);
 	}
 	else if (paramcheck(argv[1], "mandelbrot") == 1)

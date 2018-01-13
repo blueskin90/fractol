@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/08 17:23:29 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/09 21:49:15 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/12 08:45:09 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		*ft_buddhafill(void *part)
 	return (NULL);
 }
 
-void		*ft_minibuddhafill(void *part)
+void		*ft_minibudf(void *part)
 {
 	int		x;
 	int		y;
@@ -43,6 +43,7 @@ void		*ft_minibuddhafill(void *part)
 
 	p = part;
 	y = -1;
+	ft_buddhainit(p->data->buddhabrot, p->data);
 	while (++y < p->fra->imgy)
 	{
 		x = -1;

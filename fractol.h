@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 22:09:57 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/09 00:37:32 by toliver          ###   ########.fr       */
+/*   Updated: 2018/01/12 11:00:58 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # define WINX data->winx
 # define WINY data->winy
 # define ONSCREEN data->onscreen
+# define MENU data->menu
 # define INT_MAX 2147483647
-# include <stdio.h>
 
 # include "mlx.h"
 # include "libft.h"
@@ -77,6 +77,7 @@ typedef	struct		s_fractale
 	int				ite;
 	int				imgx;
 	int				imgy;
+	int				modified;
 	float			minx;
 	float			maxx;
 	float			miny;
@@ -87,7 +88,7 @@ typedef	struct		s_fractale
 	char			*miniimg_str;
 	t_value			**array;
 	t_value			**miniarray;
-	float		(*formula)(t_complex, t_complex, int);
+	float			(*formula)(t_complex, t_complex, int);
 }					t_fractale;
 
 typedef struct		s_color
@@ -96,7 +97,7 @@ typedef struct		s_color
 	int				clicked;
 	int				hover;
 	int				value;
-	float		index;
+	float			index;
 	t_hsv			hsv;
 	t_rgb			rgb;
 	struct s_color	*next;
@@ -112,6 +113,7 @@ typedef struct		s_data
 	int				winx;
 	int				winy;
 
+	int				locked;
 	int				menu;
 	int				scrollmenuoffset;
 	int				colormenu;
@@ -159,7 +161,9 @@ void				errset2(int *err, int *y, int difinc0, int difinc3);
 void				ft_line(t_point a, t_point b, t_data *data, int color);
 void				px_to_onscreenimg(t_data *data, int x, int y, int c);
 void				*ft_fractal(void *part);
-void				*ft_minifractal(void *part);
+void				*ft_minifra(void *part);
+void				*ft_coloredfractal(void *part);
+void				*ft_minifracolor(void *part);
 
 /*
 ** fonction in testing
@@ -169,7 +173,6 @@ void				px_to_miniimg(t_fractale *fract, int x, int y, int c);
 void				print_img(t_data *data);
 void				ft_printcolor(float retvalue, t_data *data, int x, int y);
 int					getstep(unsigned char v1, unsigned char v2, float retval);
-void				ft_refresh(t_data *data);
 void				ft_onscreenprint(t_data *data, t_fractale *fract);
 t_point				ft_point(int x, int y);
 void				ft_clickset(t_data *data);
@@ -183,6 +186,7 @@ void				iterationhandle(int keycode, t_data *data);
 ** print functions
 */
 
+void				ft_refresh(t_data *data);
 void				printlosange(t_data *data, t_point p, int size, int color);
 void				printrectangle(t_data *d, t_point p, t_point size, int col);
 void				printemptyrectangle(t_data *d, t_point p, t_point s, int c);
@@ -194,7 +198,7 @@ void				printemptycircle(t_point p, int rad, t_data *data, int col);
 void				pcirloop2(t_data *data, t_point p1, t_point p2, int color);
 void				printhabar(t_data *data, int width, int offset, int alpha);
 void				printvabar(t_data *data, int width, int offset, int alpha);
-void				printarectangle(t_data *dat, t_point coord, t_point size, 
+void				printarectangle(t_data *dat, t_point coord, t_point size,
 									int alpha);
 void				printarrow(t_data *data, t_point p, int color);
 void				printlockedpreset(t_data *data, int x, int y, int color);
@@ -262,13 +266,13 @@ float				ft_buddhabrot(t_complex c, t_complex z, int ite);
 
 void				ft_buddhainit(t_fractale *buddhabrot, t_data *data);
 void				*ft_buddhafill(void *part);
-void				ft_buddhabrotfill(t_complex c, t_complex z, t_value **target,  t_data *data);
+void				ft_buddhabrotfill(t_complex c, t_complex z, t_value **target
+								, t_data *data);
 int					pingpixel(t_complex z, t_value **target, t_data *data);
 float				ft_buddhabrot(t_complex c, t_complex z, int ite);
-void				ft_scalearray(int max, t_value **array, int b,  t_data *data);
+void				ft_scalearray(int max, t_value **array, int b, t_data *dat);
 void				ft_buddhaimg(t_data *data);
-void				*ft_minibuddhafill(void *part);
-void				array_erase(t_fractale *buddha, t_data *data);
+void				*ft_minibudf(void *part);
 void				ft_buddhaminiimg(t_data *data);
 
 /*
@@ -283,7 +287,7 @@ int					key_on(int keycode, t_data *data);
 
 int					middlebuttonhandle(int x, int y, t_data *data);
 int					button_off(int button, int x, int y, t_data *data);
-t_complex			ft_mousecoord(float x, float y, t_fractale *fra, t_data *data);
+t_complex			ft_mousecoord(float x, float y, t_fractale *f, t_data *dat);
 int					mouse_mov(int x, int y, t_data *data);
 int					button_on(int button, int x, int y, t_data *data);
 void				leftbuttonclick(int x, int y, t_data *data);
@@ -316,17 +320,17 @@ t_part				ft_palloc(t_data *data, int i, t_fractale *fra);
 ** complex handling functions
 */
 
-t_complex			ft_complex(int x, int y, t_data *data); // convertis en complexe
+t_complex			ft_complex(int x, int y, t_data *data);
 t_complex			ft_comp(float x, float y);
-t_complex			ft_cadd(t_complex c1, t_complex c2); // addition de complexes
-t_complex			ft_csqr(t_complex comp); // square du complexe
-t_complex			ft_cabs(t_complex c); // retourne la valeur absolue
+t_complex			ft_cadd(t_complex c1, t_complex c2);
+t_complex			ft_csqr(t_complex comp);
+t_complex			ft_cabs(t_complex c);
 t_complex			ft_cmul(t_complex c1, t_complex c2);
-float				ft_cmod(t_complex comp); // donne la norme du vecteur
-float				ft_checkvalue(t_complex comp); // pour verif ca < limit(carre)
+float				ft_cmod(t_complex comp);
+float				ft_checkvalue(t_complex comp);
 t_complex			ft_coord(float x, float y, t_fractale *fra, t_data *dat);
 t_complex			ft_mcoord(float x, float y, t_fractale *fra, t_data *dat);
-t_complex			ft_coordzoom(float x, float y, t_fractale *fra, t_data *dat);
+t_complex			ft_coordzoom(float x, float y, t_fractale *fr, t_data *dat);
 t_complex			ft_cpow(t_complex c, float pow);
 t_complex			ft_conj(t_complex c);
 t_complex			ft_cinv(t_complex c);
@@ -346,5 +350,6 @@ void				mlx_img_init(t_data *data);
 void				img_init(t_fractale *fract, t_data *data);
 void				colorinit(t_data *data);
 void				boolinit(t_data *data);
+t_value				**arrayinit(int xmax, int ymax);
 
 #endif
