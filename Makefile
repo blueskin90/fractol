@@ -6,7 +6,7 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 16:37:55 by toliver           #+#    #+#              #
-#    Updated: 2018/01/13 19:30:04 by toliver          ###   ########.fr        #
+#    Updated: 2018/03/19 22:44:32 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ LIBFT = libft/libft.a
 
 LIBX = minilibx_macos/libmlx.a
 
-FLAGS = -Wall -Wextra -Werror -Ofast -march=native -flto -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -Ofast -march=native -flto
 
 MLX = -framework OpenGL -framework AppKit
 
