@@ -6,13 +6,13 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/12 01:24:53 by toliver           #+#    #+#              #
-#    Updated: 2017/12/30 16:21:40 by toliver          ###   ########.fr        #
+#    Updated: 2026/02/22 19:50:18 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-FLAGS = -Wall -Wextra -Werror -Ofast
+FLAGS = -Wall -Wextra -Ofast
 
 FILES = atoi \
 	   bzero \

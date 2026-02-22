@@ -6,7 +6,7 @@
 #    By: toliver <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 16:37:55 by toliver           #+#    #+#              #
-#    Updated: 2018/03/19 22:44:32 by toliver          ###   ########.fr        #
+#    Updated: 2026/02/22 20:13:13 by toliver          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,15 +54,13 @@ FILES =	main.c \
 
 OBJ = $(FILES:.c=.o)
 
-INCLUDES = -I. -I./libft/includes -I./minilibx_macos
+INCLUDES = -I. -I./libft/includes -I./minilibx-linux
 
 LIBFT = libft/libft.a
 
-LIBX = minilibx_macos/libmlx.a
+LIBX = minilibx-linux/libmlx.a
 
-FLAGS = -Wall -Wextra -Werror -Ofast -march=native -flto
-
-MLX = -framework OpenGL -framework AppKit
+FLAGS = -Wall -Wextra -Ofast -march=native -flto -lmlx -lXext -lX11 -Lminilibx-linux -lm
 
 .PHONY: all, clean, fclean, re
 
@@ -70,20 +68,20 @@ all: $(NAME)
 
 $(NAME): $(OBJ) fractol.h
 	make -C libft/
-	make -C minilibx_macos/
-	gcc -o $(NAME) $(OBJ) $(FLAGS) $(MLX) $(LIBFT) $(LIBX) $(INCLUDES)
+	make -C minilibx-linux/
+	gcc -o $(NAME) $(OBJ) $(FLAGS) $(LIBFT) $(LIBX) $(INCLUDES)
 
 %.o: %.c fractol.h
 	gcc -o $@ -c $< $(FLAGS) $(INCLUDES)
 
 clean:
 	make clean -C libft/
-	make clean -C minilibx_macos/
+	make clean -C minilibx-linux/
 	rm -rf $(OBJ)
 
 fclean: clean
 	make fclean -C libft/
-	make clean -C minilibx_macos/
+	make clean -C minilibx-linux/
 	rm -rf $(NAME)
 
 re: fclean all
