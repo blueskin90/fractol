@@ -59,6 +59,7 @@ void	iterationhandle(int keycode, t_data *data)
 
 int		key_on(int keycode, t_data *data)
 {
+	printf("keycode = %d\n", keycode);
 	if (keycode == 126 || keycode == 125 || keycode == 123 || keycode == 124)
 		move(keycode, data);
 	if (keycode == 53)
@@ -68,12 +69,12 @@ int		key_on(int keycode, t_data *data)
 	if (keycode == 49)
 		if (ONSCREEN == data->julia || ONSCREEN == data->multibrot)
 			ONSCREEN->locked = (ONSCREEN->locked == 0 ? 1 : 0);
-	if (keycode == 46)
+	if (keycode == 109)
 	{
 		data->colorchanged = 1;
 		data->menu = (data->menu == 0) ? 1 : 0;
 	}
-	if (keycode == 69 || keycode == 78 || keycode == 46)
+	if (keycode == 69 || keycode == 78 || keycode == 46 || keycode == 109)
 	{
 		ft_refresh(data);
 		ft_printite(data);

@@ -67,11 +67,11 @@ int				main(int argc, char **argv)
 
 	fra = argcheck(argc, argv);
 	data = init(fra);
-	mlx_hook(data->win, 2, 0, key_on, data);
-	mlx_hook(data->win, 4, 0, button_on, data);
-	mlx_hook(data->win, 5, 0, button_off, data);
-	mlx_hook(data->win, 6, 0, mouse_mov, data);
-	mlx_hook(data->win, 17, 0, window_closed, data);
+	mlx_hook(data->win, 2, 1L, key_on, data);
+	mlx_hook(data->win, 4, 1L, button_on, data);
+	mlx_hook(data->win, 5, 1L, button_off, data);
+	mlx_hook(data->win, 6, 1L, mouse_mov, data);
+	mlx_hook(data->win, 17, 1L, window_closed, data);
 	ft_buddhainit(data->buddhabrot, data);
 	ft_refresh(data);
 	mlx_loop(data->mlx);
