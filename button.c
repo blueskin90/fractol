@@ -6,14 +6,16 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 12:51:15 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/11 21:11:04 by toliver          ###   ########.fr       */
+/*   Updated: 2026/03/07 13:41:08 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include <stdio.h>
 
 int				button_on(int button, int x, int y, t_data *data)
 {
+	printf("button = %d\n", button);
 	if (button != 4 && button != 5)
 		data->button[button] = 1;
 	data->buttonx[button] = x;

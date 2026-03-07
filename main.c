@@ -6,7 +6,7 @@
 /*   By: toliver <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/07 22:19:33 by toliver           #+#    #+#             */
-/*   Updated: 2018/01/12 11:12:38 by toliver          ###   ########.fr       */
+/*   Updated: 2026/03/07 13:50:47 by toliver          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int				main(int argc, char **argv)
 	fra = argcheck(argc, argv);
 	data = init(fra);
 	mlx_hook(data->win, 2, 1L, key_on, data);
-	mlx_hook(data->win, 4, 1L, button_on, data);
-	mlx_hook(data->win, 5, 1L, button_off, data);
-	mlx_hook(data->win, 6, 1L, mouse_mov, data);
+	mlx_hook(data->win, 4, 0L, button_on, data);
+	mlx_hook(data->win, 5, 0L, button_off, data);
+	mlx_hook(data->win, 6, 0L, mouse_mov, data);
 	mlx_hook(data->win, 17, 1L, window_closed, data);
 	ft_buddhainit(data->buddhabrot, data);
 	ft_refresh(data);
